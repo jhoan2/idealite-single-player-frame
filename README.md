@@ -2,7 +2,7 @@
 
 ![daily reviews image](./public/daily-reviews.png)
 
-This is a Farcaster Frame that lets users of the decentralized social make their feeds productive by letting them review their cards as a pit stop in their doom scrolling. 
+This is a Farcaster frame that lets users of the decentralized social make their feeds productive by letting them review their cards as a pit stop in their doom scrolling. 
 
 The cards come from their account on idealite.xyz, an educational network. 
 
