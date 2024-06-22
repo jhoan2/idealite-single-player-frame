@@ -30,14 +30,38 @@ export const POST = frames(async (ctx) => {
     let updatedState
 
     try {
+
+        const profile = await composeClient.executeQuery(`
+            query MyQuery {
+            idealiteProfilev1Index(
+                filters: {where: {farcasterId: {equalTo: "${ctx.message.requesterFid}"}}}
+                first: 10
+            ) {
+                edges {
+                node {
+                    account {
+                    id
+                    }
+                }
+                }
+            }
+            }
+        `);
+
+
+        if (!profile.data.idealiteProfilev1Index.edges.length === 0) {
+            throw new Error('No idealite profile found')
+        }
+        const profileId = profile?.data?.idealiteProfilev1Index?.edges[0]
+
         const result = await composeClient.executeQuery(`
             query MyQuery {
-                idealiteCardv1Index(first: 10, filters: {
-                    where: {
-                        annotation: { notEqualTo: null },
-                        learningStatus: { in: [FORGETTING, LEARNING, MATURE] }
-                    }
-                }) {
+            node(id: "${profileId.node.account.id}") {
+                ... on CeramicAccount {
+                idealiteCardv1List(
+                    first: 10
+                    filters: {where: {annotation: {isNull: false}, deleted: {equalTo: false}, learningStatus: {in: FORGETTING}}}
+                ) {
                     edges {
                         node {
                             id
@@ -45,10 +69,12 @@ export const POST = frames(async (ctx) => {
                         }
                     }
                 }
+                }
+            }
             }
         `);
 
-        const cardsArray = result.data.idealiteCardv1Index.edges;
+        const cardsArray = result.data.node.idealiteCardv1List.edges;
         cards = cardsArray
         updatedState = {
             ...currentState,
@@ -67,7 +93,7 @@ export const POST = frames(async (ctx) => {
     }
 
     return {
-        image: updatedState.cards.length < 4 ?
+        image: updatedState.cards.length < 10 ?
             <div tw='flex flex-col text-5xl'>
                 <p>You don't have enough cards to review.</p>
                 <p>Checkout idealite.xyz</p>
@@ -82,7 +108,7 @@ export const POST = frames(async (ctx) => {
                     <p>Click below to begin.</p>
                 </div>
             </div>,
-        buttons: updatedState.cards.length < 4 ?
+        buttons: updatedState.cards.length < 10 ?
             [
                 <Button action="post_redirect" target='/results'>idealite.xyz</Button>
             ]
