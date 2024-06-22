@@ -1,12 +1,5 @@
 import { farcasterHubContext } from "frames.js/middleware";
-import { createFrames, Button, types } from "frames.js/next";
-
-export type State = {
-  count: number;
-  cardsLearned: string[];
-};
-
-
+import { createFrames, Button } from "frames.js/next";
 
 const frames = createFrames({
   basePath: '/frames',
