@@ -1,7 +1,7 @@
 import { farcasterHubContext } from "frames.js/middleware";
 import { createFrames, Button } from "frames.js/next";
 
-const frames = createFrames({
+export const frames = createFrames({
   basePath: '/frames',
   initialState: {
     count: 0,
