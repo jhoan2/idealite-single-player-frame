@@ -60,7 +60,7 @@ export const POST = frames(async (ctx) => {
     const word = removeFirstLongestWord(ctx.state.cards[ctx.state.count].node.annotation)
 
     return {
-        image: (ctx.state.count === 6) ?
+        image: (ctx.state.count === 10) ?
             (<div tw="flex flex-col justify-center text-5xl">
                 <p>You're all done</p>
             </div>)
@@ -77,7 +77,7 @@ export const POST = frames(async (ctx) => {
                 </div>
             )
         ,
-        buttons: ctx.state.count === 3 ?
+        buttons: ctx.state.count === 10 ?
             [
                 <Button action="post" target="/results">
                     Get results
