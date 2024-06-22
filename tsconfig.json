@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/frames/route.tsx",
+    "app/frames/route.jsx",
     "app/frames/question/route.jsx"
   ],
   "exclude": [
