@@ -6,7 +6,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Daily Reviews",
     other: {
       ...(await fetchMetadata(
-        new URL("/frames", process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000")
+        new URL("/frames", process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3001")
       )),
     },
   };
